@@ -1,0 +1,684 @@
+{
+  "info": {
+    "_postman_id": "20b0cd34-ba9e-4ca7-90a7-1a33dc137160",
+    "name": "Second wave",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "58001049",
+    "_collection_link": "https://go.postman.co/collection/58001049-20b0cd34-ba9e-4ca7-90a7-1a33dc137160?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Branch Login",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.environment.set(\"timestamp\", Date.now());\r\n"
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Verify status code is 200\", function () {\n    pm.response.to.have.status(200);\n});\n\nif (pm.response.headers.get(\"content-type\") && pm.response.headers.get(\"content-type\").includes(\"application/json\")) {\n    const responseData = pm.response.json();    \n\n    pm.test(\"Verify access token is present\", function () {\n        pm.expect(responseData.access).to.not.be.null;\n        pm.expect(responseData.access).to.exist; \n    });\n\n    pm.test(\"Verify user details is present\", function () {\n        pm.expect(responseData.user).to.exist; \n    });\n\n    pm.collectionVariables.set(\"access_token\", responseData.access);\n    pm.test(\"Response has access token\", function () {\n        pm.expect(responseData).to.have.property(\"access\");\n    });\n} else {\n    pm.test(\"Response is not JSON (error page)\", function () {\n        pm.expect(pm.response.code).to.equal(200);\n    });\n}\n\npm.test(\"Verify response time is below 600ms\", function () {\n    pm.expect(pm.response.responseTime).to.be.below(600); \n});\n\npm.test(\"Verify response size is below 5KB\", function () {\n    pm.expect(pm.response.size().total).to.be.below(5120); \n});\n"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [
+          {
+            "key": "accept",
+            "value": "application/json, text/plain, */*"
+          },
+          {
+            "key": "accept-language",
+            "value": "en-GB,en-US;q=0.9,en;q=0.8"
+          },
+          {
+            "key": "content-type",
+            "value": "application/json"
+          },
+          {
+            "key": "origin",
+            "value": "https://qa03.stage.chairlyo.com"
+          },
+          {
+            "key": "priority",
+            "value": "u=1, i"
+          },
+          {
+            "key": "referer",
+            "value": "https://qa03.stage.chairlyo.com/"
+          },
+          {
+            "key": "sec-ch-ua",
+            "value": "\"Chromium\";v=\"152\", \"Not?A_Brand\";v=\"24\", \"Google Chrome\";v=\"152\""
+          },
+          {
+            "key": "sec-ch-ua-mobile",
+            "value": "?0"
+          },
+          {
+            "key": "sec-ch-ua-platform",
+            "value": "\"Windows\""
+          },
+          {
+            "key": "sec-fetch-dest",
+            "value": "empty"
+          },
+          {
+            "key": "sec-fetch-mode",
+            "value": "cors"
+          },
+          {
+            "key": "sec-fetch-site",
+            "value": "same-site"
+          },
+          {
+            "key": "user-agent",
+            "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"email\":\"orgadmin@test.com\",\"password\":\"Test@123\",\"rememberMe\":false}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base URL}}/api/accounts/login/",
+          "host": [
+            "{{base URL}}"
+          ],
+          "path": [
+            "api",
+            "accounts",
+            "login",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Branches List",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "accept",
+            "value": "application/json, text/plain, */*"
+          },
+          {
+            "key": "accept-language",
+            "value": "en-GB,en-US;q=0.9,en;q=0.8"
+          },
+          {
+            "key": "authorization",
+            "value": "Bearer {{json_web_token_1ed9}}"
+          },
+          {
+            "key": "origin",
+            "value": "https://qa03.stage.chairlyo.com"
+          },
+          {
+            "key": "priority",
+            "value": "u=1, i"
+          },
+          {
+            "key": "referer",
+            "value": "https://qa03.stage.chairlyo.com/"
+          },
+          {
+            "key": "sec-ch-ua",
+            "value": "\"Chromium\";v=\"152\", \"Not?A_Brand\";v=\"24\", \"Google Chrome\";v=\"152\""
+          },
+          {
+            "key": "sec-ch-ua-mobile",
+            "value": "?0"
+          },
+          {
+            "key": "sec-ch-ua-platform",
+            "value": "\"Windows\""
+          },
+          {
+            "key": "sec-fetch-dest",
+            "value": "empty"
+          },
+          {
+            "key": "sec-fetch-mode",
+            "value": "cors"
+          },
+          {
+            "key": "sec-fetch-site",
+            "value": "same-site"
+          },
+          {
+            "key": "user-agent",
+            "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
+          },
+          {
+            "key": "accept",
+            "value": "application/json, text/plain, */*"
+          },
+          {
+            "key": "accept-language",
+            "value": "en-GB,en-US;q=0.9,en;q=0.8"
+          },
+          {
+            "key": "authorization",
+            "value": "Bearer {{json_web_token_1ed9}}",
+            "disabled": true
+          },
+          {
+            "key": "origin",
+            "value": "https://qa03.stage.chairlyo.com"
+          },
+          {
+            "key": "priority",
+            "value": "u=1, i"
+          },
+          {
+            "key": "referer",
+            "value": "https://qa03.stage.chairlyo.com/"
+          },
+          {
+            "key": "sec-ch-ua",
+            "value": "\"Chromium\";v=\"152\", \"Not?A_Brand\";v=\"24\", \"Google Chrome\";v=\"152\""
+          },
+          {
+            "key": "sec-ch-ua-mobile",
+            "value": "?0"
+          },
+          {
+            "key": "sec-ch-ua-platform",
+            "value": "\"Windows\""
+          },
+          {
+            "key": "sec-fetch-dest",
+            "value": "empty"
+          },
+          {
+            "key": "sec-fetch-mode",
+            "value": "cors"
+          },
+          {
+            "key": "sec-fetch-site",
+            "value": "same-site"
+          },
+          {
+            "key": "user-agent",
+            "value": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
+          }
+        ],
+        "url": {
+          "raw": "https://qa03.base.chairlyo.com/api/branch/branches/?limit=8",
+          "protocol": "https",
+          "host": [
+            "qa03",
+            "base",
+            "chairlyo",
+            "com"
+          ],
+          "path": [
+            "api",
+            "branch",
+            "branches",
+            ""
+          ],
+          "query": [
+            {
+              "key": "limit",
+              "value": "8"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Branch Create",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "let branch_creation = pm.response.json();\n\npm.test(\"Verify branch creation\", function () {\n  pm.expect(branch_creation.success).to.be.true;\n});\n\npm.test(\"Verify branch name is unique\", function () {\n    const responseData = pm.response.json();\n    const branchName = responseData.data.name; \n    pm.expect(branchName, \"Branch name should match the expected format.\").to.match(/^[a-zA-Z0-9_\\-]{1,100}$/);\n});\n\n\nconst responseData = pm.response.json();\nconst branchSlug = responseData.data.slug; \npm.collectionVariables.set(\"slug\", branchSlug);\nconsole.log(\"Captured Slug:\", branchSlug);\n\n\nif (pm.response.code === 201 || pm.response.code === 200) {\n    const responseData = pm.response.json();\n    const activeSlug = responseData.slug || (responseData.data && responseData.data.slug);\n    \n    if (activeSlug) {\n        pm.collectionVariables.set(\"slug\", activeSlug);\n        console.log(\"POST Success: Baseline automation variable set to ->\", activeSlug);\n    }\n}\n"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{json_web_token_0429}}"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-CSRFTOKEN",
+            "value": "Ai0RyMmOIyGomU1HJ31PvDG8e5RUHqnJiSvVMZImbaCs3rdAGNC7tOrdHVf6Rlww"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"{{$randomFirstName}}\",\n  \"slug\": \"user-{{$randomInt}}\",\n  \"email\": \"branch{{$randomInt}}@gmail.com\",\n  \"phone\": \"+97798{{$randomInt}}\",\n  \"status\": \"active\",\n  \"address\": \"{{$randomStreetAddress}}\",\n  \"timezone\": \"Asia/Katmandu\",\n  \"branch_admin\": {\n    \"first_name\": \"Leonardo\",\n    \"last_name\": \"Thapa\",\n    \"email\": \"thapag{{$randomInt}}@gmail.com\",\n    \"password\": \"Leo123@geotake\",\n    \"phone\": \"+97798{{$randomInt}}\"\n  }\n}\n",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base URL}}/api/branch/branches/",
+          "host": [
+            "{{base URL}}"
+          ],
+          "path": [
+            "api",
+            "branch",
+            "branches",
+            ""
+          ]
+        }
+      },
+      "response": [
+        {
+          "name": "Branch Create001",
+          "originalRequest": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer curl --url 'https://qa03.base.chairlyo.com/api/accounts/login/' \\   -H 'accept: application/json, text/plain, */*' \\   -H 'accept-language: en-GB,en-US;q=0.9,en;q=0.8' \\   -H 'content-type: application/json' \\   -H 'origin: https://qa03.stage.chairlyo.com' \\   -H 'priority: u=1, i' \\   -H 'referer: https://qa03.stage.chairlyo.com/' \\   -H 'sec-ch-ua: \"Chromium\";v=\"152\", \"Not?A_Brand\";v=\"24\", \"Google Chrome\";v=\"152\"' \\   -H 'sec-ch-ua-mobile: ?0' \\   -H 'sec-ch-ua-platform: \"Windows\"' \\   -H 'sec-fetch-dest: empty' \\   -H 'sec-fetch-mode: cors' \\   -H 'sec-fetch-site: same-site' \\   -H 'user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36' \\   --data-raw '{\"email\":\"skilladmin@test.com\",\"password\":\"Skill@123\",\"rememberMe\":false}'"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "X-CSRFTOKEN",
+                "value": "zi9HX28vdQ09oILy60Aa9fodsGiVmsNLtqnBCxFrytmCpnlOSnyNHSWrZbdLyN4f"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"{{$randomFirstName}}\",\n  \"slug\": \"{{$randomUserName}}\",\n  \"email\": \"3000@gmail.com\",\n  \"phone\": \"+97712345678\",\n  \"status\": \"active\",\n  \"address\": \"{{$randomStreetAddress}}\",\n  \"timezone\": \"Asia/Katmandu\",\n  \"branch_admin\": {\n    \"first_name\": \"Sid\",\n    \"last_name\": \"Thapa Magar\",\n    \"email\": \"{{$randomEmail}}\",\n    \"password\": \"123@Sujan\",\n    \"phone\": \"{{$randomPhoneNumber}}\"\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base URL}}/api/branch/branches/",
+              "host": [
+                "{{base URL}}"
+              ],
+              "path": [
+                "api",
+                "branch",
+                "branches",
+                ""
+              ]
+            }
+          },
+          "status": "Created",
+          "code": 201,
+          "_postman_previewlanguage": "json",
+          "header": [
+            {
+              "key": "server",
+              "value": "nginx/1.24.0 (Ubuntu)"
+            },
+            {
+              "key": "date",
+              "value": "Thu, 10 Sep 2026 01:54:14 GMT"
+            },
+            {
+              "key": "content-type",
+              "value": "application/json"
+            },
+            {
+              "key": "content-length",
+              "value": "699"
+            },
+            {
+              "key": "connection",
+              "value": "keep-alive"
+            },
+            {
+              "key": "vary",
+              "value": "Accept, origin"
+            },
+            {
+              "key": "allow",
+              "value": "GET, POST, HEAD, OPTIONS"
+            },
+            {
+              "key": "x-frame-options",
+              "value": "DENY"
+            },
+            {
+              "key": "x-content-type-options",
+              "value": "nosniff"
+            },
+            {
+              "key": "referrer-policy",
+              "value": "same-origin"
+            },
+            {
+              "key": "cross-origin-opener-policy",
+              "value": "same-origin"
+            }
+          ],
+          "cookie": [],
+          "body": "{\n  \"success\": true,\n  \"message\": \"Branch created successfully.\",\n  \"data\": {\n    \"id\": 274,\n    \"name\": \"Graham\",\n    \"slug\": \"Janice21\",\n    \"email\": \"3000@gmail.com\",\n    \"phone\": \"+97712345678\",\n    \"address\": \"1536 Celestine Extensions\",\n    \"status\": \"active\",\n    \"is_active\": true,\n    \"admin\": {\n      \"id\": 278,\n      \"email\": \"Johnson7@hotmail.com\",\n      \"username\": \"Johnson7@hotmail.com\",\n      \"first_name\": \"Sid\",\n      \"last_name\": \"Thapa Magar\",\n      \"phone\": \"990-474-2222\"\n    },\n    \"timezone\": \"Asia/Katmandu\",\n    \"effective_timezone\": \"Asia/Katmandu\",\n    \"created_at\": \"2026-09-10T01:54:14.462317Z\",\n    \"updated_at\": \"2026-09-10T01:54:14.462351Z\",\n    \"created_by\": {\n      \"id\": 1,\n      \"email\": \"skilladmin@test.com\",\n      \"username\": \"skilladmin@test.com\",\n      \"first_name\": \"Main\",\n      \"last_name\": \"Main\",\n      \"phone\": \"+9779812345648\"\n    },\n    \"updated_by\": null\n  }\n}"
+        }
+      ]
+    },
+    {
+      "name": "Branche slug name creation",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{json_web_token_0xfy}}"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{base URL}}/api/branch/branches/{{slug}}/",
+          "host": [
+            "{{base URL}}"
+          ],
+          "path": [
+            "api",
+            "branch",
+            "branches",
+            "{{slug}}",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Branch slug update",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "// Only update the tracking variable if the patch actually succeeds\r\nif (pm.response.code === 200) {\r\n    const responseData = pm.response.json();\r\n    const updatedSlug = responseData.slug || (responseData.data && responseData.data.slug);\r\n    \r\n    if (updatedSlug) {\r\n        // Update the variable to the NEW slug so subsequent automated steps (like GET or DELETE) know the new path\r\n        pm.collectionVariables.set(\"slug\", updatedSlug);\r\n        console.log(\"Automation: Branch updated. Rolled variable to new slug ->\", updatedSlug);\r\n    }\r\n} else {\r\n    // If it fails, do nothing so it doesn't corrupt the variable with 'undefined' or 'null'\r\n    console.log(`Automation Warning: PATCH failed with status ${pm.response.code}. Retaining original slug.`);\r\n}\r\n"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer curl --url 'https://qa03.base.chairlyo.com/api/accounts/login/' \\   -H 'accept: application/json, text/plain, */*' \\   -H 'accept-language: en-GB,en-US;q=0.9,en;q=0.8' \\   -H 'content-type: application/json' \\   -H 'origin: https://qa03.stage.chairlyo.com' \\   -H 'priority: u=1, i' \\   -H 'referer: https://qa03.stage.chairlyo.com/' \\   -H 'sec-ch-ua: \"Chromium\";v=\"152\", \"Not?A_Brand\";v=\"24\", \"Google Chrome\";v=\"152\"' \\   -H 'sec-ch-ua-mobile: ?0' \\   -H 'sec-ch-ua-platform: \"Windows\"' \\   -H 'sec-fetch-dest: empty' \\   -H 'sec-fetch-mode: cors' \\   -H 'sec-fetch-site: same-site' \\   -H 'user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36' \\   --data-raw '{\"email\":\"skilladmin@test.com\",\"password\":\"Skill@123\",\"rememberMe\":false}'"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-CSRFTOKEN",
+            "value": "zi9HX28vdQ09oILy60Aa9fodsGiVmsNLtqnBCxFrytmCpnlOSnyNHSWrZbdLyN4f"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"name\": \"{{$randomFirstName}}\",\n  \"slug\": \"{{$randomUserName}}\",\n  \"email\": \"3000@gmail.com\",\n  \"phone\": \"+9779843859237\",\n  \"status\": \"active\",\n  \"address\": \"Kathmandu\",\n  \"is_active\": true,\n  \"admin\":66,\n  \"timezone\": \"Asia/Katmandu\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://qa03.base.chairlyo.com/api/branch/branches/{{slug}}/",
+          "protocol": "https",
+          "host": [
+            "qa03",
+            "base",
+            "chairlyo",
+            "com"
+          ],
+          "path": [
+            "api",
+            "branch",
+            "branches",
+            "{{slug}}",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Branch(Partial) slug update",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "if (pm.response.code === 200) {\n    const responseData = pm.response.json();\n    const updatedValue = responseData.slug || (responseData.data && responseData.data.slug);\n    \n    if (updatedValue) \n        pm.collectionVariables.set(\"slug\", updatedValue);\n        console.log(\"PATCH Success: Automation variable updated to new path ->\", updatedValue);\n    }\n} else {\n    console.log(\"PATCH Failed: Skinned variable update to protect workflow integrity.\");\n}"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "accept",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer curl --url 'https://qa03.base.chairlyo.com/api/accounts/login/' \\   -H 'accept: application/json, text/plain, */*' \\   -H 'accept-language: en-GB,en-US;q=0.9,en;q=0.8' \\   -H 'content-type: application/json' \\   -H 'origin: https://qa03.stage.chairlyo.com' \\   -H 'priority: u=1, i' \\   -H 'referer: https://qa03.stage.chairlyo.com/' \\   -H 'sec-ch-ua: \"Chromium\";v=\"152\", \"Not?A_Brand\";v=\"24\", \"Google Chrome\";v=\"152\"' \\   -H 'sec-ch-ua-mobile: ?0' \\   -H 'sec-ch-ua-platform: \"Windows\"' \\   -H 'sec-fetch-dest: empty' \\   -H 'sec-fetch-mode: cors' \\   -H 'sec-fetch-site: same-site' \\   -H 'user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36' \\   --data-raw '{\"email\":\"skilladmin@test.com\",\"password\":\"Skill@123\",\"rememberMe\":false}'"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-CSRFTOKEN",
+            "value": "zi9HX28vdQ09oILy60Aa9fodsGiVmsNLtqnBCxFrytmCpnlOSnyNHSWrZbdLyN4f"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"{{$randomFirstName}}\",\n    \"slug\": \"{{$randomUserName}}\", \n    \"email\": \"fadul@gmail.com\",\n    \"phone\": \"977901300729\",\n    \"status\": \"active\",\n    \"address\": \"Kathmandu\",\n    \"is_active\": true,\n    \"admin\": 66,\n    \"timezone\": \"Asia/Katmandu\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://qa03.base.chairlyo.com/api/branch/branches/{{slug}}/",
+          "protocol": "https",
+          "host": [
+            "qa03",
+            "base",
+            "chairlyo",
+            "com"
+          ],
+          "path": [
+            "api",
+            "branch",
+            "branches",
+            "{{slug}}",
+            ""
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Branch Delete",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          {
+            "key": "accept",
+            "value": "*/*"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{access_token}}"
+          },
+          {
+            "key": "X-CSRFTOKEN",
+            "value": "zi9HX28vdQ09oILy60Aa9fodsGiVmsNLtqnBCxFrytmCpnlOSnyNHSWrZbdLyN4f"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://qa03.base.chairlyo.com/api/branch/branches/{{slug}}/",
+          "protocol": "https",
+          "host": [
+            "qa03",
+            "base",
+            "chairlyo",
+            "com"
+          ],
+          "path": [
+            "api",
+            "branch",
+            "branches",
+            "{{slug}}",
+            ""
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{access_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "supabase_service_role_api_key_1ed9",
+      "secret": true
+    },
+    {
+      "key": "bearer_token_16jj",
+      "secret": true
+    },
+    {
+      "key": "json_web_token_1ed9",
+      "secret": true
+    },
+    {
+      "key": "json_web_token_17pv",
+      "secret": true
+    },
+    {
+      "key": "supabase_service_role_api_key_0jv1",
+      "secret": true
+    },
+    {
+      "key": "json_web_token_0vqj",
+      "secret": true
+    },
+    {
+      "key": "supabase_service_role_api_key_17pv",
+      "secret": true
+    },
+    {
+      "key": "access_token",
+      "secret": true
+    },
+    {
+      "key": "json_web_token_0xfy",
+      "secret": true
+    },
+    {
+      "key": "bearer_token_03em",
+      "secret": true
+    },
+    {
+      "key": "slug",
+      "value": ""
+    },
+    {
+      "key": "mock_url",
+      "value": ""
+    },
+    {
+      "key": "json_web_token_0429",
+      "secret": true
+    },
+    {
+      "key": "bearer_token_0ded",
+      "secret": true
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+	"id": "3a2236ef-6b86-4af6-8cee-8470e3f19223",
+	"name": "Second wave Environment",
+	"values": [
+		{
+			"key": "timestamp",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "base URL",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"color": 240,
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2026-09-17T08:04:59.563Z",
+	"_postman_exported_using": "Postman/12.28.0"
+}

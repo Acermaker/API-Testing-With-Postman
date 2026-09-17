@@ -63,7 +63,4 @@ pm.test("Verify access token is present", function () {
     pm.expect(responseData.access).to.exist; 
 });
 ```
-
----
-**Author:** Your Name  
 *Connect with me on LinkedIn or review my portfolio for deeper conversations around modern QA engineering paradigms!*
